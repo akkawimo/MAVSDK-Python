@@ -2,7 +2,6 @@
 
 import asyncio
 from mavsdk import System
-from mavsdk.action import Winch
 
 
 async def run():
@@ -15,11 +14,14 @@ async def run():
             print(f"-- Connected to drone!")
             break
 
-    print(f"-- winch action LOAD_LINE")
-    await drone.action.do_winch(instance=1, action=Winch.LOAD_LINE, release_length=0.0, release_rate=0.0)
+    print(f"-- Gripper Grab")
+    await drone.action.gripper_grab(instance=1)
+    await asyncio.sleep(1)
+    print(f"-- Gripper Release")
+    await drone.action.gripper_release(instance=1)
 
     while True:
-        # print("Staying connected, press Ctrl-C to exit")
+        print("Staying connected, press Ctrl-C to exit")
         await asyncio.sleep(1)
 
 
