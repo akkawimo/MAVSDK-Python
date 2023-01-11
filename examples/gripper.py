@@ -3,10 +3,9 @@
 import asyncio
 from mavsdk import System
 
-
 async def run():
     drone = System()
-    await drone.connect(system_address="udp://localhost:14540")
+    await drone.connect(system_address="udp://:14540")
 
     print("Waiting for drone to connect...")
     async for state in drone.core.connection_state():
@@ -15,10 +14,12 @@ async def run():
             break
 
     print(f"-- Gripper Grab")
-    await drone.action.gripper_grab(instance=1)
+    await drone.gripper.grab(instance=1)
+
     await asyncio.sleep(1)
+
     print(f"-- Gripper Release")
-    await drone.action.gripper_release(instance=1)
+    await drone.gripper.release(instance=1)
 
     while True:
         print("Staying connected, press Ctrl-C to exit")

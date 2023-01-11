@@ -2,12 +2,10 @@
 
 import asyncio
 from mavsdk import System
-from mavsdk.action import Winch
-
 
 async def run():
     drone = System()
-    await drone.connect(system_address="udp://localhost:14540")
+    await drone.connect(system_address="udp://:14540")
 
     print("Waiting for drone to connect...")
     async for state in drone.core.connection_state():
@@ -15,11 +13,11 @@ async def run():
             print(f"-- Connected to drone!")
             break
 
-    print(f"-- winch action LOAD_LINE")
-    await drone.action.do_winch(instance=1, action=Winch.LOAD_LINE, release_length=0.0, release_rate=0.0)
+    print(f"-- Winch action: load payload")
+    await drone.winch.load_payload(instance=1)
 
     while True:
-        # print("Staying connected, press Ctrl-C to exit")
+        print("Staying connected, press Ctrl-C to exit")
         await asyncio.sleep(1)
 
 
