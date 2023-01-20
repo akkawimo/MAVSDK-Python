@@ -14,6 +14,11 @@ class WinchServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.SubscribeStatus = channel.unary_stream(
+                '/mavsdk.rpc.winch.WinchService/SubscribeStatus',
+                request_serializer=winch_dot_winch__pb2.SubscribeStatusRequest.SerializeToString,
+                response_deserializer=winch_dot_winch__pb2.StatusResponse.FromString,
+                )
         self.Relax = channel.unary_unary(
                 '/mavsdk.rpc.winch.WinchService/Relax',
                 request_serializer=winch_dot_winch__pb2.RelaxRequest.SerializeToString,
@@ -68,6 +73,13 @@ class WinchServiceStub(object):
 
 class WinchServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
+
+    def SubscribeStatus(self, request, context):
+        """Subscribe to 'winch status' updates.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def Relax(self, request, context):
         """
@@ -154,6 +166,11 @@ class WinchServiceServicer(object):
 
 def add_WinchServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'SubscribeStatus': grpc.unary_stream_rpc_method_handler(
+                    servicer.SubscribeStatus,
+                    request_deserializer=winch_dot_winch__pb2.SubscribeStatusRequest.FromString,
+                    response_serializer=winch_dot_winch__pb2.StatusResponse.SerializeToString,
+            ),
             'Relax': grpc.unary_unary_rpc_method_handler(
                     servicer.Relax,
                     request_deserializer=winch_dot_winch__pb2.RelaxRequest.FromString,
@@ -213,6 +230,23 @@ def add_WinchServiceServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class WinchService(object):
     """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def SubscribeStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/mavsdk.rpc.winch.WinchService/SubscribeStatus',
+            winch_dot_winch__pb2.SubscribeStatusRequest.SerializeToString,
+            winch_dot_winch__pb2.StatusResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Relax(request,

@@ -96,6 +96,434 @@ class WinchAction(Enum):
         return self.name
 
 
+class StatusFlags:
+    """
+ 
+
+     Parameters
+     ----------
+     healthy : bool
+          Winch is healthy
+
+     fully_retracted : bool
+          Winch line is fully retracted
+
+     moving : bool
+         Winch motor is moving
+
+     clutch_engaged : bool
+          Winch clutch is engaged allowing motor to move freely
+
+     locked : bool
+          Winch is locked by locking mechanism
+
+     dropping : bool
+          Winch is gravity dropping payload
+
+     arresting : bool
+          Winch is arresting payload descent
+
+     ground_sense : bool
+          Winch is using torque measurements to sense the ground
+
+     retracting : bool
+          Winch is returning to the fully retracted position
+
+     redeliver : bool
+          Winch is redelivering the payload. This is a failover state if the line tension goes above a threshold during RETRACTING.
+
+     abandon_line : bool
+          Winch is abandoning the line and possibly payload. Winch unspools the entire calculated line length. This is a failover state from REDELIVER if the number of attempts exceeds a threshold.
+
+     locking : bool
+          Winch is engaging the locking mechanism
+
+     load_line : bool
+          Winch is spooling on line
+
+     load_payload : bool
+          Winch is loading a payload
+
+     """
+
+    
+
+    def __init__(
+            self,
+            healthy,
+            fully_retracted,
+            moving,
+            clutch_engaged,
+            locked,
+            dropping,
+            arresting,
+            ground_sense,
+            retracting,
+            redeliver,
+            abandon_line,
+            locking,
+            load_line,
+            load_payload):
+        """ Initializes the StatusFlags object """
+        self.healthy = healthy
+        self.fully_retracted = fully_retracted
+        self.moving = moving
+        self.clutch_engaged = clutch_engaged
+        self.locked = locked
+        self.dropping = dropping
+        self.arresting = arresting
+        self.ground_sense = ground_sense
+        self.retracting = retracting
+        self.redeliver = redeliver
+        self.abandon_line = abandon_line
+        self.locking = locking
+        self.load_line = load_line
+        self.load_payload = load_payload
+
+    def __eq__(self, to_compare):
+        """ Checks if two StatusFlags are the same """
+        try:
+            # Try to compare - this likely fails when it is compared to a non
+            # StatusFlags object
+            return \
+                (self.healthy == to_compare.healthy) and \
+                (self.fully_retracted == to_compare.fully_retracted) and \
+                (self.moving == to_compare.moving) and \
+                (self.clutch_engaged == to_compare.clutch_engaged) and \
+                (self.locked == to_compare.locked) and \
+                (self.dropping == to_compare.dropping) and \
+                (self.arresting == to_compare.arresting) and \
+                (self.ground_sense == to_compare.ground_sense) and \
+                (self.retracting == to_compare.retracting) and \
+                (self.redeliver == to_compare.redeliver) and \
+                (self.abandon_line == to_compare.abandon_line) and \
+                (self.locking == to_compare.locking) and \
+                (self.load_line == to_compare.load_line) and \
+                (self.load_payload == to_compare.load_payload)
+
+        except AttributeError:
+            return False
+
+    def __str__(self):
+        """ StatusFlags in string representation """
+        struct_repr = ", ".join([
+                "healthy: " + str(self.healthy),
+                "fully_retracted: " + str(self.fully_retracted),
+                "moving: " + str(self.moving),
+                "clutch_engaged: " + str(self.clutch_engaged),
+                "locked: " + str(self.locked),
+                "dropping: " + str(self.dropping),
+                "arresting: " + str(self.arresting),
+                "ground_sense: " + str(self.ground_sense),
+                "retracting: " + str(self.retracting),
+                "redeliver: " + str(self.redeliver),
+                "abandon_line: " + str(self.abandon_line),
+                "locking: " + str(self.locking),
+                "load_line: " + str(self.load_line),
+                "load_payload: " + str(self.load_payload)
+                ])
+
+        return f"StatusFlags: [{struct_repr}]"
+
+    @staticmethod
+    def translate_from_rpc(rpcStatusFlags):
+        """ Translates a gRPC struct to the SDK equivalent """
+        return StatusFlags(
+                
+                rpcStatusFlags.healthy,
+                
+                
+                rpcStatusFlags.fully_retracted,
+                
+                
+                rpcStatusFlags.moving,
+                
+                
+                rpcStatusFlags.clutch_engaged,
+                
+                
+                rpcStatusFlags.locked,
+                
+                
+                rpcStatusFlags.dropping,
+                
+                
+                rpcStatusFlags.arresting,
+                
+                
+                rpcStatusFlags.ground_sense,
+                
+                
+                rpcStatusFlags.retracting,
+                
+                
+                rpcStatusFlags.redeliver,
+                
+                
+                rpcStatusFlags.abandon_line,
+                
+                
+                rpcStatusFlags.locking,
+                
+                
+                rpcStatusFlags.load_line,
+                
+                
+                rpcStatusFlags.load_payload
+                )
+
+    def translate_to_rpc(self, rpcStatusFlags):
+        """ Translates this SDK object into its gRPC equivalent """
+
+        
+        
+            
+        rpcStatusFlags.healthy = self.healthy
+            
+        
+        
+        
+            
+        rpcStatusFlags.fully_retracted = self.fully_retracted
+            
+        
+        
+        
+            
+        rpcStatusFlags.moving = self.moving
+            
+        
+        
+        
+            
+        rpcStatusFlags.clutch_engaged = self.clutch_engaged
+            
+        
+        
+        
+            
+        rpcStatusFlags.locked = self.locked
+            
+        
+        
+        
+            
+        rpcStatusFlags.dropping = self.dropping
+            
+        
+        
+        
+            
+        rpcStatusFlags.arresting = self.arresting
+            
+        
+        
+        
+            
+        rpcStatusFlags.ground_sense = self.ground_sense
+            
+        
+        
+        
+            
+        rpcStatusFlags.retracting = self.retracting
+            
+        
+        
+        
+            
+        rpcStatusFlags.redeliver = self.redeliver
+            
+        
+        
+        
+            
+        rpcStatusFlags.abandon_line = self.abandon_line
+            
+        
+        
+        
+            
+        rpcStatusFlags.locking = self.locking
+            
+        
+        
+        
+            
+        rpcStatusFlags.load_line = self.load_line
+            
+        
+        
+        
+            
+        rpcStatusFlags.load_payload = self.load_payload
+            
+        
+        
+
+
+class Status:
+    """
+ 
+
+     Parameters
+     ----------
+     time_usec : uint64_t
+         
+     line_length_m : float
+         
+     speed_m_s : float
+         
+     tension_kg : float
+         
+     voltage_v : float
+         
+     current_a : float
+         
+     temperature_c : int32_t
+         
+     status_flags : StatusFlags
+         
+     """
+
+    
+
+    def __init__(
+            self,
+            time_usec,
+            line_length_m,
+            speed_m_s,
+            tension_kg,
+            voltage_v,
+            current_a,
+            temperature_c,
+            status_flags):
+        """ Initializes the Status object """
+        self.time_usec = time_usec
+        self.line_length_m = line_length_m
+        self.speed_m_s = speed_m_s
+        self.tension_kg = tension_kg
+        self.voltage_v = voltage_v
+        self.current_a = current_a
+        self.temperature_c = temperature_c
+        self.status_flags = status_flags
+
+    def __eq__(self, to_compare):
+        """ Checks if two Status are the same """
+        try:
+            # Try to compare - this likely fails when it is compared to a non
+            # Status object
+            return \
+                (self.time_usec == to_compare.time_usec) and \
+                (self.line_length_m == to_compare.line_length_m) and \
+                (self.speed_m_s == to_compare.speed_m_s) and \
+                (self.tension_kg == to_compare.tension_kg) and \
+                (self.voltage_v == to_compare.voltage_v) and \
+                (self.current_a == to_compare.current_a) and \
+                (self.temperature_c == to_compare.temperature_c) and \
+                (self.status_flags == to_compare.status_flags)
+
+        except AttributeError:
+            return False
+
+    def __str__(self):
+        """ Status in string representation """
+        struct_repr = ", ".join([
+                "time_usec: " + str(self.time_usec),
+                "line_length_m: " + str(self.line_length_m),
+                "speed_m_s: " + str(self.speed_m_s),
+                "tension_kg: " + str(self.tension_kg),
+                "voltage_v: " + str(self.voltage_v),
+                "current_a: " + str(self.current_a),
+                "temperature_c: " + str(self.temperature_c),
+                "status_flags: " + str(self.status_flags)
+                ])
+
+        return f"Status: [{struct_repr}]"
+
+    @staticmethod
+    def translate_from_rpc(rpcStatus):
+        """ Translates a gRPC struct to the SDK equivalent """
+        return Status(
+                
+                rpcStatus.time_usec,
+                
+                
+                rpcStatus.line_length_m,
+                
+                
+                rpcStatus.speed_m_s,
+                
+                
+                rpcStatus.tension_kg,
+                
+                
+                rpcStatus.voltage_v,
+                
+                
+                rpcStatus.current_a,
+                
+                
+                rpcStatus.temperature_c,
+                
+                
+                StatusFlags.translate_from_rpc(rpcStatus.status_flags)
+                )
+
+    def translate_to_rpc(self, rpcStatus):
+        """ Translates this SDK object into its gRPC equivalent """
+
+        
+        
+            
+        rpcStatus.time_usec = self.time_usec
+            
+        
+        
+        
+            
+        rpcStatus.line_length_m = self.line_length_m
+            
+        
+        
+        
+            
+        rpcStatus.speed_m_s = self.speed_m_s
+            
+        
+        
+        
+            
+        rpcStatus.tension_kg = self.tension_kg
+            
+        
+        
+        
+            
+        rpcStatus.voltage_v = self.voltage_v
+            
+        
+        
+        
+            
+        rpcStatus.current_a = self.current_a
+            
+        
+        
+        
+            
+        rpcStatus.temperature_c = self.temperature_c
+            
+        
+        
+        
+            
+        self.status_flags.translate_to_rpc(rpcStatus.status_flags)
+            
+        
+        
+
+
 class WinchResult:
     """
      Result type.
@@ -334,6 +762,30 @@ class Winch(AsyncBase):
         """ Returns the response status and description """
         return WinchResult.translate_from_rpc(response.winch_result)
     
+
+    async def status(self):
+        """
+         Subscribe to 'winch status' updates.
+
+         Yields
+         -------
+         status : Status
+              The next 'winch status' state
+
+         
+        """
+
+        request = winch_pb2.SubscribeStatusRequest()
+        status_stream = self._stub.SubscribeStatus(request)
+
+        try:
+            async for response in status_stream:
+                
+
+            
+                yield Status.translate_from_rpc(response.status)
+        finally:
+            status_stream.cancel()
 
     async def relax(self, instance):
         """
