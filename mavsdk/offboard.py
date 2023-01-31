@@ -977,6 +977,9 @@ class OffboardResult:
          NO_SETPOINT_SET
               Cannot start without setpoint set
 
+         FAILED
+              Request failed
+
          """
 
         
@@ -988,6 +991,7 @@ class OffboardResult:
         COMMAND_DENIED = 5
         TIMEOUT = 6
         NO_SETPOINT_SET = 7
+        FAILED = 8
 
         def translate_to_rpc(self):
             if self == OffboardResult.Result.UNKNOWN:
@@ -1006,6 +1010,8 @@ class OffboardResult:
                 return offboard_pb2.OffboardResult.RESULT_TIMEOUT
             if self == OffboardResult.Result.NO_SETPOINT_SET:
                 return offboard_pb2.OffboardResult.RESULT_NO_SETPOINT_SET
+            if self == OffboardResult.Result.FAILED:
+                return offboard_pb2.OffboardResult.RESULT_FAILED
 
         @staticmethod
         def translate_from_rpc(rpc_enum_value):
@@ -1026,6 +1032,8 @@ class OffboardResult:
                 return OffboardResult.Result.TIMEOUT
             if rpc_enum_value == offboard_pb2.OffboardResult.RESULT_NO_SETPOINT_SET:
                 return OffboardResult.Result.NO_SETPOINT_SET
+            if rpc_enum_value == offboard_pb2.OffboardResult.RESULT_FAILED:
+                return OffboardResult.Result.FAILED
 
         def __str__(self):
             return self.name

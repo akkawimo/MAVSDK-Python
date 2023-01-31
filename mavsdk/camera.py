@@ -135,6 +135,9 @@ class CameraResult:
          NO_SYSTEM
               No system connected
 
+         PROTOCOL_UNSUPPORTED
+              Definition file protocol not supported
+
          """
 
         
@@ -147,6 +150,7 @@ class CameraResult:
         TIMEOUT = 6
         WRONG_ARGUMENT = 7
         NO_SYSTEM = 8
+        PROTOCOL_UNSUPPORTED = 9
 
         def translate_to_rpc(self):
             if self == CameraResult.Result.UNKNOWN:
@@ -167,6 +171,8 @@ class CameraResult:
                 return camera_pb2.CameraResult.RESULT_WRONG_ARGUMENT
             if self == CameraResult.Result.NO_SYSTEM:
                 return camera_pb2.CameraResult.RESULT_NO_SYSTEM
+            if self == CameraResult.Result.PROTOCOL_UNSUPPORTED:
+                return camera_pb2.CameraResult.RESULT_PROTOCOL_UNSUPPORTED
 
         @staticmethod
         def translate_from_rpc(rpc_enum_value):
@@ -189,6 +195,8 @@ class CameraResult:
                 return CameraResult.Result.WRONG_ARGUMENT
             if rpc_enum_value == camera_pb2.CameraResult.RESULT_NO_SYSTEM:
                 return CameraResult.Result.NO_SYSTEM
+            if rpc_enum_value == camera_pb2.CameraResult.RESULT_PROTOCOL_UNSUPPORTED:
+                return CameraResult.Result.PROTOCOL_UNSUPPORTED
 
         def __str__(self):
             return self.name
