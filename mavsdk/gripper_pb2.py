@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15gripper/gripper.proto\x12\x12mavsdk.rpc.gripper\"\x1f\n\x0bGrabRequest\x12\x10\n\x08instance\x18\x01 \x01(\r\"I\n\x0cGrabResponse\x12\x39\n\x0egripper_result\x18\x01 \x01(\x0b\x32!.mavsdk.rpc.gripper.GripperResult\"\"\n\x0eReleaseRequest\x12\x10\n\x08instance\x18\x01 \x01(\r\"L\n\x0fReleaseResponse\x12\x39\n\x0egripper_result\x18\x01 \x01(\x0b\x32!.mavsdk.rpc.gripper.GripperResult\"\xf3\x03\n\rGripperResult\x12\x38\n\x06result\x18\x01 \x01(\x0e\x32(.mavsdk.rpc.gripper.GripperResult.Result\x12\x12\n\nresult_str\x18\x02 \x01(\t\"\x93\x03\n\x06Result\x12\x12\n\x0eRESULT_UNKNOWN\x10\x00\x12\x12\n\x0eRESULT_SUCCESS\x10\x01\x12\x14\n\x10RESULT_NO_SYSTEM\x10\x02\x12\x1b\n\x17RESULT_CONNECTION_ERROR\x10\x03\x12\x0f\n\x0bRESULT_BUSY\x10\x04\x12\x19\n\x15RESULT_COMMAND_DENIED\x10\x05\x12.\n*RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN\x10\x06\x12$\n RESULT_COMMAND_DENIED_NOT_LANDED\x10\x07\x12\x12\n\x0eRESULT_TIMEOUT\x10\x08\x12*\n&RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN\x10\t\x12%\n!RESULT_NO_VTOL_TRANSITION_SUPPORT\x10\n\x12\x1a\n\x16RESULT_PARAMETER_ERROR\x10\x0b\x12\x16\n\x12RESULT_UNSUPPORTED\x10\x0c\x12\x11\n\rRESULT_FAILED\x10\r*D\n\rGripperAction\x12\x1a\n\x16GRIPPER_ACTION_RELEASE\x10\x00\x12\x17\n\x13GRIPPER_ACTION_GRAB\x10\x01\x32\xb3\x01\n\x0eGripperService\x12K\n\x04Grab\x12\x1f.mavsdk.rpc.gripper.GrabRequest\x1a .mavsdk.rpc.gripper.GrabResponse\"\x00\x12T\n\x07Release\x12\".mavsdk.rpc.gripper.ReleaseRequest\x1a#.mavsdk.rpc.gripper.ReleaseResponse\"\x00\x42!\n\x11io.mavsdk.gripperB\x0cGripperProtob\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15gripper/gripper.proto\x12\x12mavsdk.rpc.gripper\"\x1f\n\x0bGrabRequest\x12\x10\n\x08instance\x18\x01 \x01(\r\"I\n\x0cGrabResponse\x12\x39\n\x0egripper_result\x18\x01 \x01(\x0b\x32!.mavsdk.rpc.gripper.GripperResult\"\"\n\x0eReleaseRequest\x12\x10\n\x08instance\x18\x01 \x01(\r\"L\n\x0fReleaseResponse\x12\x39\n\x0egripper_result\x18\x01 \x01(\x0b\x32!.mavsdk.rpc.gripper.GripperResult\"\xf6\x01\n\rGripperResult\x12\x38\n\x06result\x18\x01 \x01(\x0e\x32(.mavsdk.rpc.gripper.GripperResult.Result\x12\x12\n\nresult_str\x18\x02 \x01(\t\"\x96\x01\n\x06Result\x12\x12\n\x0eRESULT_UNKNOWN\x10\x00\x12\x12\n\x0eRESULT_SUCCESS\x10\x01\x12\x14\n\x10RESULT_NO_SYSTEM\x10\x02\x12\x0f\n\x0bRESULT_BUSY\x10\x03\x12\x12\n\x0eRESULT_TIMEOUT\x10\x04\x12\x16\n\x12RESULT_UNSUPPORTED\x10\x05\x12\x11\n\rRESULT_FAILED\x10\x06*D\n\rGripperAction\x12\x1a\n\x16GRIPPER_ACTION_RELEASE\x10\x00\x12\x17\n\x13GRIPPER_ACTION_GRAB\x10\x01\x32\xb3\x01\n\x0eGripperService\x12K\n\x04Grab\x12\x1f.mavsdk.rpc.gripper.GrabRequest\x1a .mavsdk.rpc.gripper.GrabResponse\"\x00\x12T\n\x07Release\x12\".mavsdk.rpc.gripper.ReleaseRequest\x1a#.mavsdk.rpc.gripper.ReleaseResponse\"\x00\x42!\n\x11io.mavsdk.gripperB\x0cGripperProtob\x06proto3')
 
 _GRIPPERACTION = DESCRIPTOR.enum_types_by_name['GripperAction']
 GripperAction = enum_type_wrapper.EnumTypeWrapper(_GRIPPERACTION)
@@ -69,8 +69,8 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\021io.mavsdk.gripperB\014GripperProto'
-  _GRIPPERACTION._serialized_start=769
-  _GRIPPERACTION._serialized_end=837
+  _GRIPPERACTION._serialized_start=516
+  _GRIPPERACTION._serialized_end=584
   _GRABREQUEST._serialized_start=45
   _GRABREQUEST._serialized_end=76
   _GRABRESPONSE._serialized_start=78
@@ -80,9 +80,9 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _RELEASERESPONSE._serialized_start=189
   _RELEASERESPONSE._serialized_end=265
   _GRIPPERRESULT._serialized_start=268
-  _GRIPPERRESULT._serialized_end=767
+  _GRIPPERRESULT._serialized_end=514
   _GRIPPERRESULT_RESULT._serialized_start=364
-  _GRIPPERRESULT_RESULT._serialized_end=767
-  _GRIPPERSERVICE._serialized_start=840
-  _GRIPPERSERVICE._serialized_end=1019
+  _GRIPPERRESULT_RESULT._serialized_end=514
+  _GRIPPERSERVICE._serialized_start=587
+  _GRIPPERSERVICE._serialized_end=766
 # @@protoc_insertion_point(module_scope)

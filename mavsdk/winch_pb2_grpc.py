@@ -6,7 +6,10 @@ from . import winch_pb2 as winch_dot_winch__pb2
 
 
 class WinchServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """
+    Allows users to send winch actions, as well as receive status information from winch systems.
+
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -72,7 +75,10 @@ class WinchServiceStub(object):
 
 
 class WinchServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """
+    Allows users to send winch actions, as well as receive status information from winch systems.
+
+    """
 
     def SubscribeStatus(self, request, context):
         """Subscribe to 'winch status' updates.
@@ -229,7 +235,10 @@ def add_WinchServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class WinchService(object):
-    """Missing associated documentation comment in .proto file."""
+    """
+    Allows users to send winch actions, as well as receive status information from winch systems.
+
+    """
 
     @staticmethod
     def SubscribeStatus(request,

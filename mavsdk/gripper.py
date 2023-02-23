@@ -8,14 +8,19 @@ from enum import Enum
 
 class GripperAction(Enum):
     """
- 
+     Gripper Actions.
+
+     Available gripper actions are defined in mavlink under
+     https://mavlink.io/en/messages/common.html#GRIPPER_ACTIONS
 
      Values
      ------
      RELEASE
-         
+          Open the gripper to release the cargo
+
      GRAB
-         
+          Close the gripper and grab onto cargo
+
      """
 
     
@@ -58,7 +63,7 @@ class GripperResult:
     
     class Result(Enum):
         """
-         Possible results returned for action requests.
+         Possible results returned for gripper action requests.
 
          Values
          ------
@@ -71,32 +76,11 @@ class GripperResult:
          NO_SYSTEM
               No system is connected
 
-         CONNECTION_ERROR
-              Connection error
-
          BUSY
-              Vehicle is busy
-
-         COMMAND_DENIED
-              Command refused by vehicle
-
-         COMMAND_DENIED_LANDED_STATE_UNKNOWN
-              Command refused because landed state is unknown
-
-         COMMAND_DENIED_NOT_LANDED
-              Command refused because vehicle not landed
+              Temporarily rejected
 
          TIMEOUT
               Request timed out
-
-         VTOL_TRANSITION_SUPPORT_UNKNOWN
-              Hybrid/VTOL transition support is unknown
-
-         NO_VTOL_TRANSITION_SUPPORT
-              Vehicle does not support hybrid/VTOL transitions
-
-         PARAMETER_ERROR
-              Error getting or setting parameter
 
          UNSUPPORTED
               Action not supported
@@ -110,17 +94,10 @@ class GripperResult:
         UNKNOWN = 0
         SUCCESS = 1
         NO_SYSTEM = 2
-        CONNECTION_ERROR = 3
-        BUSY = 4
-        COMMAND_DENIED = 5
-        COMMAND_DENIED_LANDED_STATE_UNKNOWN = 6
-        COMMAND_DENIED_NOT_LANDED = 7
-        TIMEOUT = 8
-        VTOL_TRANSITION_SUPPORT_UNKNOWN = 9
-        NO_VTOL_TRANSITION_SUPPORT = 10
-        PARAMETER_ERROR = 11
-        UNSUPPORTED = 12
-        FAILED = 13
+        BUSY = 3
+        TIMEOUT = 4
+        UNSUPPORTED = 5
+        FAILED = 6
 
         def translate_to_rpc(self):
             if self == GripperResult.Result.UNKNOWN:
@@ -129,24 +106,10 @@ class GripperResult:
                 return gripper_pb2.GripperResult.RESULT_SUCCESS
             if self == GripperResult.Result.NO_SYSTEM:
                 return gripper_pb2.GripperResult.RESULT_NO_SYSTEM
-            if self == GripperResult.Result.CONNECTION_ERROR:
-                return gripper_pb2.GripperResult.RESULT_CONNECTION_ERROR
             if self == GripperResult.Result.BUSY:
                 return gripper_pb2.GripperResult.RESULT_BUSY
-            if self == GripperResult.Result.COMMAND_DENIED:
-                return gripper_pb2.GripperResult.RESULT_COMMAND_DENIED
-            if self == GripperResult.Result.COMMAND_DENIED_LANDED_STATE_UNKNOWN:
-                return gripper_pb2.GripperResult.RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN
-            if self == GripperResult.Result.COMMAND_DENIED_NOT_LANDED:
-                return gripper_pb2.GripperResult.RESULT_COMMAND_DENIED_NOT_LANDED
             if self == GripperResult.Result.TIMEOUT:
                 return gripper_pb2.GripperResult.RESULT_TIMEOUT
-            if self == GripperResult.Result.VTOL_TRANSITION_SUPPORT_UNKNOWN:
-                return gripper_pb2.GripperResult.RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN
-            if self == GripperResult.Result.NO_VTOL_TRANSITION_SUPPORT:
-                return gripper_pb2.GripperResult.RESULT_NO_VTOL_TRANSITION_SUPPORT
-            if self == GripperResult.Result.PARAMETER_ERROR:
-                return gripper_pb2.GripperResult.RESULT_PARAMETER_ERROR
             if self == GripperResult.Result.UNSUPPORTED:
                 return gripper_pb2.GripperResult.RESULT_UNSUPPORTED
             if self == GripperResult.Result.FAILED:
@@ -161,24 +124,10 @@ class GripperResult:
                 return GripperResult.Result.SUCCESS
             if rpc_enum_value == gripper_pb2.GripperResult.RESULT_NO_SYSTEM:
                 return GripperResult.Result.NO_SYSTEM
-            if rpc_enum_value == gripper_pb2.GripperResult.RESULT_CONNECTION_ERROR:
-                return GripperResult.Result.CONNECTION_ERROR
             if rpc_enum_value == gripper_pb2.GripperResult.RESULT_BUSY:
                 return GripperResult.Result.BUSY
-            if rpc_enum_value == gripper_pb2.GripperResult.RESULT_COMMAND_DENIED:
-                return GripperResult.Result.COMMAND_DENIED
-            if rpc_enum_value == gripper_pb2.GripperResult.RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN:
-                return GripperResult.Result.COMMAND_DENIED_LANDED_STATE_UNKNOWN
-            if rpc_enum_value == gripper_pb2.GripperResult.RESULT_COMMAND_DENIED_NOT_LANDED:
-                return GripperResult.Result.COMMAND_DENIED_NOT_LANDED
             if rpc_enum_value == gripper_pb2.GripperResult.RESULT_TIMEOUT:
                 return GripperResult.Result.TIMEOUT
-            if rpc_enum_value == gripper_pb2.GripperResult.RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN:
-                return GripperResult.Result.VTOL_TRANSITION_SUPPORT_UNKNOWN
-            if rpc_enum_value == gripper_pb2.GripperResult.RESULT_NO_VTOL_TRANSITION_SUPPORT:
-                return GripperResult.Result.NO_VTOL_TRANSITION_SUPPORT
-            if rpc_enum_value == gripper_pb2.GripperResult.RESULT_PARAMETER_ERROR:
-                return GripperResult.Result.PARAMETER_ERROR
             if rpc_enum_value == gripper_pb2.GripperResult.RESULT_UNSUPPORTED:
                 return GripperResult.Result.UNSUPPORTED
             if rpc_enum_value == gripper_pb2.GripperResult.RESULT_FAILED:
@@ -261,7 +210,7 @@ class GripperError(Exception):
 
 class Gripper(AsyncBase):
     """
- 
+     Allows users to send gripper actions.
 
      Generated by dcsdkgen - MAVSDK Gripper API
     """

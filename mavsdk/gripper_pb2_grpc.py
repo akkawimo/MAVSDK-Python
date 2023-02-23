@@ -6,7 +6,9 @@ from . import gripper_pb2 as gripper_dot_gripper__pb2
 
 
 class GripperServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """
+    Allows users to send gripper actions.
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -27,7 +29,9 @@ class GripperServiceStub(object):
 
 
 class GripperServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """
+    Allows users to send gripper actions.
+    """
 
     def Grab(self, request, context):
         """
@@ -66,7 +70,9 @@ def add_GripperServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class GripperService(object):
-    """Missing associated documentation comment in .proto file."""
+    """
+    Allows users to send gripper actions.
+    """
 
     @staticmethod
     def Grab(request,

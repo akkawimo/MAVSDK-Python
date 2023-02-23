@@ -8,30 +8,40 @@ from enum import Enum
 
 class WinchAction(Enum):
     """
- 
+     Winch Action type.
 
      Values
      ------
      RELAXED
-         
+          Allow motor to freewheel
+
      RELATIVE_LENGTH_CONTROL
-         
+          Wind or unwind specified length of line, optionally using specified rate
+
      RATE_CONTROL
-         
+          Wind or unwind line at specified rate
+
      LOCK
-         
+          Perform the locking sequence to relieve motor while in the fully retracted position
+
      DELIVER
-         
+          Sequence of drop, slow down, touch down, reel up, lock
+
      HOLD
-         
+          Engage motor and hold current position
+
      RETRACT
-         
+          Return the reel to the fully retracted position
+
      LOAD_LINE
-         
+          Load the reel with line. The winch will calculate the total loaded length and stop when the tension exceeds a threshold
+
      ABANDON_LINE
-         
+          Spool out the entire length of the line
+
      LOAD_PAYLOAD
-         
+          Spools out just enough to present the hook to the user to load the payload
+
      """
 
     
@@ -98,7 +108,13 @@ class WinchAction(Enum):
 
 class StatusFlags:
     """
- 
+     Winch Status Flags.
+
+     The status flags are defined in mavlink
+     https://mavlink.io/en/messages/common.html#MAV_WINCH_STATUS_FLAG.
+
+     Multiple status fields can be set simultaneously. Mavlink does
+     not specify which states are mutually exclusive.
 
      Parameters
      ----------
@@ -109,7 +125,7 @@ class StatusFlags:
           Winch line is fully retracted
 
      moving : bool
-         Winch motor is moving
+          Winch motor is moving
 
      clutch_engaged : bool
           Winch clutch is engaged allowing motor to move freely
@@ -364,26 +380,34 @@ class StatusFlags:
 
 class Status:
     """
- 
+     Status type.
 
      Parameters
      ----------
      time_usec : uint64_t
-         
+          Time in usec
+
      line_length_m : float
-         
+          Length of the line in meters
+
      speed_m_s : float
-         
+          Speed in meters per second
+
      tension_kg : float
-         
+          Tension in kilograms
+
      voltage_v : float
-         
+          Voltage in volts
+
      current_a : float
-         
+          Current in amperes
+
      temperature_c : int32_t
-         
+          Temperature in Celsius
+
      status_flags : StatusFlags
-         
+          Status flags
+
      """
 
     
@@ -542,7 +566,7 @@ class WinchResult:
     
     class Result(Enum):
         """
-         Possible results returned for action requests.
+         Possible results returned for winch action requests.
 
          Values
          ------
@@ -555,32 +579,11 @@ class WinchResult:
          NO_SYSTEM
               No system is connected
 
-         CONNECTION_ERROR
-              Connection error
-
          BUSY
-              Vehicle is busy
-
-         COMMAND_DENIED
-              Command refused by vehicle
-
-         COMMAND_DENIED_LANDED_STATE_UNKNOWN
-              Command refused because landed state is unknown
-
-         COMMAND_DENIED_NOT_LANDED
-              Command refused because vehicle not landed
+              Temporarily rejected
 
          TIMEOUT
               Request timed out
-
-         VTOL_TRANSITION_SUPPORT_UNKNOWN
-              Hybrid/VTOL transition support is unknown
-
-         NO_VTOL_TRANSITION_SUPPORT
-              Vehicle does not support hybrid/VTOL transitions
-
-         PARAMETER_ERROR
-              Error getting or setting parameter
 
          UNSUPPORTED
               Action not supported
@@ -594,17 +597,10 @@ class WinchResult:
         UNKNOWN = 0
         SUCCESS = 1
         NO_SYSTEM = 2
-        CONNECTION_ERROR = 3
-        BUSY = 4
-        COMMAND_DENIED = 5
-        COMMAND_DENIED_LANDED_STATE_UNKNOWN = 6
-        COMMAND_DENIED_NOT_LANDED = 7
-        TIMEOUT = 8
-        VTOL_TRANSITION_SUPPORT_UNKNOWN = 9
-        NO_VTOL_TRANSITION_SUPPORT = 10
-        PARAMETER_ERROR = 11
-        UNSUPPORTED = 12
-        FAILED = 13
+        BUSY = 3
+        TIMEOUT = 4
+        UNSUPPORTED = 5
+        FAILED = 6
 
         def translate_to_rpc(self):
             if self == WinchResult.Result.UNKNOWN:
@@ -613,24 +609,10 @@ class WinchResult:
                 return winch_pb2.WinchResult.RESULT_SUCCESS
             if self == WinchResult.Result.NO_SYSTEM:
                 return winch_pb2.WinchResult.RESULT_NO_SYSTEM
-            if self == WinchResult.Result.CONNECTION_ERROR:
-                return winch_pb2.WinchResult.RESULT_CONNECTION_ERROR
             if self == WinchResult.Result.BUSY:
                 return winch_pb2.WinchResult.RESULT_BUSY
-            if self == WinchResult.Result.COMMAND_DENIED:
-                return winch_pb2.WinchResult.RESULT_COMMAND_DENIED
-            if self == WinchResult.Result.COMMAND_DENIED_LANDED_STATE_UNKNOWN:
-                return winch_pb2.WinchResult.RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN
-            if self == WinchResult.Result.COMMAND_DENIED_NOT_LANDED:
-                return winch_pb2.WinchResult.RESULT_COMMAND_DENIED_NOT_LANDED
             if self == WinchResult.Result.TIMEOUT:
                 return winch_pb2.WinchResult.RESULT_TIMEOUT
-            if self == WinchResult.Result.VTOL_TRANSITION_SUPPORT_UNKNOWN:
-                return winch_pb2.WinchResult.RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN
-            if self == WinchResult.Result.NO_VTOL_TRANSITION_SUPPORT:
-                return winch_pb2.WinchResult.RESULT_NO_VTOL_TRANSITION_SUPPORT
-            if self == WinchResult.Result.PARAMETER_ERROR:
-                return winch_pb2.WinchResult.RESULT_PARAMETER_ERROR
             if self == WinchResult.Result.UNSUPPORTED:
                 return winch_pb2.WinchResult.RESULT_UNSUPPORTED
             if self == WinchResult.Result.FAILED:
@@ -645,24 +627,10 @@ class WinchResult:
                 return WinchResult.Result.SUCCESS
             if rpc_enum_value == winch_pb2.WinchResult.RESULT_NO_SYSTEM:
                 return WinchResult.Result.NO_SYSTEM
-            if rpc_enum_value == winch_pb2.WinchResult.RESULT_CONNECTION_ERROR:
-                return WinchResult.Result.CONNECTION_ERROR
             if rpc_enum_value == winch_pb2.WinchResult.RESULT_BUSY:
                 return WinchResult.Result.BUSY
-            if rpc_enum_value == winch_pb2.WinchResult.RESULT_COMMAND_DENIED:
-                return WinchResult.Result.COMMAND_DENIED
-            if rpc_enum_value == winch_pb2.WinchResult.RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN:
-                return WinchResult.Result.COMMAND_DENIED_LANDED_STATE_UNKNOWN
-            if rpc_enum_value == winch_pb2.WinchResult.RESULT_COMMAND_DENIED_NOT_LANDED:
-                return WinchResult.Result.COMMAND_DENIED_NOT_LANDED
             if rpc_enum_value == winch_pb2.WinchResult.RESULT_TIMEOUT:
                 return WinchResult.Result.TIMEOUT
-            if rpc_enum_value == winch_pb2.WinchResult.RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN:
-                return WinchResult.Result.VTOL_TRANSITION_SUPPORT_UNKNOWN
-            if rpc_enum_value == winch_pb2.WinchResult.RESULT_NO_VTOL_TRANSITION_SUPPORT:
-                return WinchResult.Result.NO_VTOL_TRANSITION_SUPPORT
-            if rpc_enum_value == winch_pb2.WinchResult.RESULT_PARAMETER_ERROR:
-                return WinchResult.Result.PARAMETER_ERROR
             if rpc_enum_value == winch_pb2.WinchResult.RESULT_UNSUPPORTED:
                 return WinchResult.Result.UNSUPPORTED
             if rpc_enum_value == winch_pb2.WinchResult.RESULT_FAILED:
@@ -745,7 +713,7 @@ class WinchError(Exception):
 
 class Winch(AsyncBase):
     """
- 
+     Allows users to send winch actions, as well as receive status information from winch systems.
 
      Generated by dcsdkgen - MAVSDK Winch API
     """
@@ -812,18 +780,21 @@ class Winch(AsyncBase):
             raise WinchError(result, "relax()", instance)
         
 
-    async def relative_length_control(self, instance, length, rate):
+    async def relative_length_control(self, instance, length_m, rate_m_s):
         """
          Wind or unwind specified length of line, optionally using specified rate.
 
          Parameters
          ----------
          instance : uint32_t
-             
-         length : float
-             
-         rate : float
-             
+              Instance ID of the winch addressed by this request
+
+         length_m : float
+              Length of line to unwind or wind
+
+         rate_m_s : float
+              Rate at which to wind or unwind the line
+
          Raises
          ------
          WinchError
@@ -832,18 +803,18 @@ class Winch(AsyncBase):
 
         request = winch_pb2.RelativeLengthControlRequest()
         request.instance = instance
-        request.length = length
-        request.rate = rate
+        request.length_m = length_m
+        request.rate_m_s = rate_m_s
         response = await self._stub.RelativeLengthControl(request)
 
         
         result = self._extract_result(response)
 
         if result.result != WinchResult.Result.SUCCESS:
-            raise WinchError(result, "relative_length_control()", instance, length, rate)
+            raise WinchError(result, "relative_length_control()", instance, length_m, rate_m_s)
         
 
-    async def rate_control(self, instance, rate):
+    async def rate_control(self, instance, rate_m_s):
         """
          Wind or unwind line at specified rate.
 
@@ -851,8 +822,9 @@ class Winch(AsyncBase):
          ----------
          instance : uint32_t
              
-         rate : float
-             
+         rate_m_s : float
+              Rate at which to wind or unwind the line
+
          Raises
          ------
          WinchError
@@ -861,14 +833,14 @@ class Winch(AsyncBase):
 
         request = winch_pb2.RateControlRequest()
         request.instance = instance
-        request.rate = rate
+        request.rate_m_s = rate_m_s
         response = await self._stub.RateControl(request)
 
         
         result = self._extract_result(response)
 
         if result.result != WinchResult.Result.SUCCESS:
-            raise WinchError(result, "rate_control()", instance, rate)
+            raise WinchError(result, "rate_control()", instance, rate_m_s)
         
 
     async def lock(self, instance):
